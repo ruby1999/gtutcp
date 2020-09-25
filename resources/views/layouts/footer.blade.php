@@ -1,0 +1,5 @@
+<!-- Footer -->
+<footer id="footer">
+    <p class="copyright">Copyright &copy; 2019 Company Name
+    <br>Designed by <a rel="nofollow" href="https://www.facebook.com/templatemo">Template Mo</a></p>
+</footer>
