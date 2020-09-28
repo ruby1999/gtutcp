@@ -6,30 +6,30 @@
 </section>
 
 <!-- Menu -->
+{{-- START OF 神奇的三層  --}}
 <nav id="menu">
-<ul>
-    <li><a href="index.html">Homepage</a></li>
-    <li><a href="simple_page.html">Simple Page</a></li>
-    <li><a href="shortcodes.html">Shortcodes</a></li>
-    <li>
-    <span class="opener">Dropdown One</span>
     <ul>
-        <li><a href="#">First Sub Menu</a></li>
-        <li><a href="#">Second Sub Menu</a></li>
-        <li><a href="#">Third Sub Menu</a></li>
+        @foreach ($datas as $key => $item)
+        {{-- 如果只有一層 --}}
+            @if (!isset($item->subCategories))
+                <li><a href="{{ $item->slug }}">{{ $item->name }}</a></li>    
+            @else
+                {{-- 如果有兩層的話 --}}
+                <li>
+                    <span class="opener">{{ $item->name }}</span>
+                    <ul>
+                        @foreach ($item->subCategories as $subItem)
+                            @if (!isset($subItem->childCategories))
+                                <li><a href="#">{{ $subItem->name }}</a></li>
+                            @endif
+                        @endforeach
+                    </ul>
+                </li>
+            @endif
+        @endforeach
     </ul>
-    </li>
-    <li>
-    <span class="opener">Dropdown Two</span>
-    <ul>
-        <li><a href="#">Sub Menu #1</a></li>
-        <li><a href="#">Sub Menu #2</a></li>
-        <li><a href="#">Sub Menu #3</a></li>
-    </ul>
-    </li>
-    <li><a href="https://www.google.com">External Link</a></li>
-</ul>
 </nav>
+{{-- END OF 神奇的三層  --}}
 
 <!-- Footer -->
 <footer id="footer">
