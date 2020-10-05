@@ -9,11 +9,58 @@
                 <div class="section-heading">
                     <h2>客製功能清單</h2>
                 </div>
+
+                {{-- <div>
+                    <select id='system'>
+                        <option>選擇系列</option>
+                        @foreach($system as $s1 => $s2)
+                            <option value="{{ $s1 }}">{{ $s2 }}</option>
+                        @endforeach
+                    </select>
+                </div> --}}
+
+                {{-- 下拉式長起來 --}}
+                <div class="row">
+                    <div class="col-12" id="searchmp">
+                        <form id="search-suppliers" onsubmit="return false">
+                            <fieldset>
+                                <div>
+                                    <select id="top-catalog" name="top-catalog" class="selectx" placeholder="">
+                                        <option>系統類別</option>
+                                        @foreach($system as $id => $name)
+                                            <option value="{{ $id }}">{{ $name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </fieldset>
+
+            
+
+                            {{-- 第二類別 --}}
+                            {{-- <fieldset>
+                                <div id="med_catalog" class="unuse">
+                                    <select id="meddle_catalog" name="meddle_catalog" class="selectx" disabled>
+                                        <option disabled selected hidden>{{ trans('frontend/general.categoriessecond') }}</option>
+                                    </select>
+                                </div>
+                            </fieldset> --}}
+
+                            {{-- 搜尋輸入框 --}}
+                            {{-- <fieldset class="keyword">
+                                <div>
+                                    <input type="text" id="q" name="q" placeholder="{{ trans('frontend/general.please_enter_search_keyword') }}">
+                                </div>
+                            </fieldset> --}}
+                        </form>
+                    </div>
+                </div>
+                {{-- 下拉式長起來 --}}
+
                 <div class="default-table">
                     <table>
                         <thead>
                             <tr>
-                                <th>客製功能編號</th>
+                                <th>#</th>
                                 <th>功能分類</th>
                                 <th>客戶名稱</th>
                                 <th>功能名稱</th>
@@ -25,8 +72,9 @@
                             @foreach($contents as $content)
                                 <tr>
                                     <td>{{ $content->id }}</td>
-                                    <td>{{ $content->category->id }}</td>
-                                    <td>{{ $content->category->name }}</td>
+                                    <td>{{ $content->system }}</td>
+                                    {{-- <td>{{ $content->category->id }}</td>
+                                    <td>{{ $content->category->name }}</td> --}}
                                     <td>{{ $content->name }}</td>
                                     <td>{{ $content->description }}</td>
                                     <th>{{ $content->system }}</th>
@@ -52,6 +100,3 @@
 
 @endsection
 
-@foreach ($post->tags as $tag)
-                <span class="badge badge-info">{{ $tag->name }}</span>
-            @endforeach
