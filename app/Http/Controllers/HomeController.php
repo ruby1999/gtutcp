@@ -24,7 +24,6 @@ class HomeController extends Controller
             }
         }
         return $datas;
-        
     }
 
     /**
@@ -35,15 +34,34 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $datas = $this->menu();
-        $contents = Content::all();
+        // dd($datas);
+        // $contents = Content::all();
         $categories = Category::all();
+        // $contents = DB::table('content')->distinct()->get();
+        // dd($contents);
+
+        // $contents = DB::table('content')
+        //     ->join('categories', 'category_id', '=', 'categories.category_id')
+        //     ->select('content.category_id', 'categories.name')
+        //     ->get();
+
+
+        $contents = DB::table('content')
+            ->join('categories', function($join)
+            {
+                $join->on('content.category_id', '=', 'categories.id');
+            })
+            ->select('content.*', 'categories.name as sub_cat')
+            ->get();
+        // dd($contents);
+
 
 
         $system = array('1' => '快易購', '2' => '快易');
         $top_catalog = $request->get('top-catalog');
         $meddle_catalog = $request->get('meddle_catalog');
 
-        $categoryId = $request->get('id');
+        // $categoryId = $request->get('id');
 
         // if (!$top_catalog) {
         //     $categoryId = $request->get('id');
@@ -54,7 +72,7 @@ class HomeController extends Controller
         // }
 
         // $posts = Post::orderBy('id', 'asc')->paginate(5);
-        return view('home', compact('datas','contents', 'categories','system'));
+        return view('home', compact('datas', 'contents', 'categories','system'));
     }
 
 

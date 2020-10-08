@@ -34,8 +34,6 @@
                                 </div>
                             </fieldset>
 
-            
-
                             {{-- 第二類別 --}}
                             {{-- <fieldset>
                                 <div id="med_catalog" class="unuse">
@@ -61,7 +59,7 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>功能分類</th>
+                                <th>功能子分類</th>
                                 <th>客戶名稱</th>
                                 <th>功能名稱</th>
                                 <th>功能說明</th>
@@ -71,10 +69,10 @@
                         <tbody>
                             @foreach($contents as $content)
                                 <tr>
+                                    {{-- {{dd($content->id)}} --}}
                                     <td>{{ $content->id }}</td>
-                                    <td>{{ $content->system }}</td>
-                                    {{-- <td>{{ $content->category->id }}</td>
-                                    <td>{{ $content->category->name }}</td> --}}
+                                    <td>{{ $content->sub_cat }}</td>
+                                    <td>{{ $content->company }}</td>       
                                     <td>{{ $content->name }}</td>
                                     <td>{{ $content->description }}</td>
                                     <th>{{ $content->system }}</th>

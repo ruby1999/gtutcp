@@ -10,6 +10,7 @@
 <nav id="menu">
     <ul>
         @foreach ($datas as $key => $item)
+        
         {{-- 如果只有一層 --}}
             @if (!isset($item->subCategories))
                 <li><a href="{{ $item->slug }}">{{ $item->name }}</a></li>    
@@ -33,7 +34,7 @@
 
 <!-- Footer -->
 <footer id="footer">
-    <p class="copyright">Copyright &copy; 2019 Company Name
-    <br>Designed by <a rel="nofollow" href="https://www.facebook.com/templatemo">Template Mo</a></p>
+    <p class="copyright">Copyright &copy; 2020 GTUT
+    <br>Designed by <a rel="nofollow" href="https://www.facebook.com/Iamgtut/">GTUT</a></p>
 </footer>
 
