@@ -16,3 +16,4 @@ Route::get('/', function () {
 });
 
 Route::get('home', 'HomeController@index');       //改爆前台menu
+Route::get('test', 'HomeController@showCatPage');       //改爆前台menu

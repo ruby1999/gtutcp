@@ -18,6 +18,7 @@
                         @endforeach
                     </select>
                 </div> --}}
+                <a class="btn btn-primary btn-lg" href="http://gtutcp.com/test" role="button">Learn more</a>
 
                 {{-- 下拉式長起來 --}}
                 <div class="row">

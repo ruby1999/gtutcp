@@ -75,6 +75,33 @@ class HomeController extends Controller
         return view('home', compact('datas', 'contents', 'categories','system'));
     }
 
+    public function showCatPage(Request $request)
+    {
+        dd($request);
+        // $data = $this->menu();
+        // $posts = DB::table('pages')
+        //              ->select(DB::raw('*'))
+        //              ->where('categoryID', '=', 4);
+        // $categories = Category::all();
+        // $posts = $posts->get();
+
+        // return view('frontend.pages.posts', ['datas' => $data])->withPosts($posts)->withCategories($categories);
+
+        // $datas = $this->menu();
+        // $categories = Category::all();
+
+        // $contents = DB::table('content')
+        //     ->join('categories', function($join)
+        //     {
+        //         $join->on('content.category_id', '=', 'categories.id');
+        //     })
+        //     ->select('content.*', 'categories.name as sub_cat')
+        //     ->get();
+
+        // $posts = Post::orderBy('id', 'asc')->paginate(5);
+        return view('home', compact('datas', 'contents', 'categories','system'));
+    }
+
 
     public function searchSuppliers($categoryId, $keyword = null)
     {
