@@ -18,38 +18,40 @@
                         @endforeach
                     </select>
                 </div> --}}
-                <a class="btn btn-primary btn-lg" href="http://gtutcp.com/test" role="button">Learn more</a>
+                <a class="btn btn-primary btn-lg" type="hidden" href="http://gtutcp.com/test" role="button">Learn more</a>
 
                 {{-- 下拉式長起來 --}}
                 <div class="row">
                     <div class="col-12" id="searchmp">
                         <form id="search-suppliers" onsubmit="return false">
+                            {{-- {{ dd($roles) }} --}}
                             <fieldset>
                                 <div>
                                     <select id="top-catalog" name="top-catalog" class="selectx" placeholder="">
-                                        <option>系統類別</option>
-                                        @foreach($system as $id => $name)
-                                            <option value="{{ $id }}">{{ $name }}</option>
+                                        <option value="">全部</option>
+                                        @foreach($top_cat as $top => $con)
+                                            <option value="{{ $con->id }}">{{ $con->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </fieldset>
 
                             {{-- 第二類別 --}}
-                            {{-- <fieldset>
+                            <fieldset>
                                 <div id="med_catalog" class="unuse">
                                     <select id="meddle_catalog" name="meddle_catalog" class="selectx" disabled>
-                                        <option disabled selected hidden>{{ trans('frontend/general.categoriessecond') }}</option>
+                                        <option selected>請選擇大分類</option>
                                     </select>
                                 </div>
-                            </fieldset> --}}
+                            </fieldset>
 
                             {{-- 搜尋輸入框 --}}
-                            {{-- <fieldset class="keyword">
+                            <fieldset class="keyword">
                                 <div>
                                     <input type="text" id="q" name="q" placeholder="{{ trans('frontend/general.please_enter_search_keyword') }}">
                                 </div>
-                            </fieldset> --}}
+                            </fieldset>
+                            <input name="id" id="id" type="hidden" value="">
                         </form>
                     </div>
                 </div>

@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace App\Http\Controllers;
 
@@ -15,14 +15,15 @@ use DB;
 class HomeController extends Controller
 {
     public function menu(){
-        $datas = DB::table('categories')->distinct()->where('parent_id', '=', 0)->get();
+        $datas = DB::table('categories')->distinct()->where('parent_id', '=', 0)->select('id', 'name')->get();
         // dd($datas);
         foreach ($datas as $key => $row) {
-            $b = DB::table('categories')->distinct()->where('parent_id', '=', $row->id)->get();
+            $b = DB::table('categories')->distinct()->where('parent_id', '=', $row->id)->select('id', 'name')->get();
             if(json_decode($b) != []) {
                 $datas[$key]->subCategories = $b;
             }
         }
+        dd($datas);
         return $datas;
     }
 
@@ -37,15 +38,6 @@ class HomeController extends Controller
         // dd($datas);
         // $contents = Content::all();
         $categories = Category::all();
-        // $contents = DB::table('content')->distinct()->get();
-        // dd($contents);
-
-        // $contents = DB::table('content')
-        //     ->join('categories', 'category_id', '=', 'categories.category_id')
-        //     ->select('content.category_id', 'categories.name')
-        //     ->get();
-
-
         $contents = DB::table('content')
             ->join('categories', function($join)
             {
@@ -56,8 +48,11 @@ class HomeController extends Controller
         // dd($contents);
 
 
+        // $cat = DB::table('categories')->distinct()->where('parent_id', '=', 0)->get('name');
+        $top_cat = DB::table('categories')->where('parent_id', 0)->select('id', 'name')->get();
 
-        $system = array('1' => '快易購', '2' => '快易');
+        // dd($roles);
+
         $top_catalog = $request->get('top-catalog');
         $meddle_catalog = $request->get('meddle_catalog');
 
@@ -72,7 +67,7 @@ class HomeController extends Controller
         // }
 
         // $posts = Post::orderBy('id', 'asc')->paginate(5);
-        return view('home', compact('datas', 'contents', 'categories','system'));
+        return view('home', compact('datas', 'contents', 'categories','system', 'top_cat'));
     }
 
     public function showCatPage(Request $request)
@@ -100,6 +95,64 @@ class HomeController extends Controller
 
         // $posts = Post::orderBy('id', 'asc')->paginate(5);
         return view('home', compact('datas', 'contents', 'categories','system'));
+    }
+
+    public function searchSuppliers2(
+        ImageProxyService $imageProxyService,
+        ContentTransformer $contentTransformer,
+        Request $request
+    )
+    {
+        try {
+            $this->imageProxyService = $imageProxyService;
+            $this->contentTransformer = $contentTransformer;
+
+            $top_catalog = $request->get('top-catalog');
+            $meddle_catalog = $request->get('meddle_catalog');
+
+            $keyword = $request->get('q');
+
+            if (!$top_catalog) {
+                $categoryId = $request->get('id');
+            } elseif ($meddle_catalog && $top_catalog) {
+                $categoryId = $meddle_catalog;
+            } elseif ($top_catalog) {
+                $categoryId = $top_catalog;
+            }
+
+            $contents = $this->searchService->searchSuppliers($categoryId, $keyword);
+
+            $imageProxyConfigs =
+                            $this->imageProxyService->getConfigsByTypes([ImageProxyTypeEnum::PAGE_CONTENT]);
+
+            $contents = $this->contentTransformer->transform($contents, $imageProxyConfigs);
+
+            $html = '';
+            foreach ($contents as $key => $row) {
+                $html .= '<div class="item col-md-4 col-sm-6">';
+                $html .= '<div class="vendor">';
+                $html .= '<a href="'. $row->url .'" title="'.$row->name. '" target="_blank" rel="nofollow">';
+                $html .= '<div class="picp">';
+                if (isset($row->image)) {
+                    $html .= '<img src = "'. $row->image .'"' . $row->image_attr .'>';
+                }
+                $html .= '</div>';
+                $html .= '<div class="text">';
+                $html .= '<h5>'.$row->title.'</h5>';
+                $html .= '<p>'.$row->parsed_introduction.'</p>';
+                $html .= '</div></a></div></div>';
+            }
+
+            return json_encode(['data' => $html]);
+        } catch (Exception $exception) {
+            exception_debug($exception);
+
+            abort(404);
+        } catch (Throwable $e) {
+            exception_debug($e);
+
+            abort(404);
+        }
     }
 
 

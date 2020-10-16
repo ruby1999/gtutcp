@@ -15,6 +15,7 @@ $(function() {
 
     $('#top-catalog').change(function() {
         var id = $('#top-catalog').val();
+        console.log(id);
         var q = $('#q').val();
         $.ajax({
             method: 'GET',

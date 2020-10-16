@@ -17,3 +17,6 @@ Route::get('/', function () {
 
 Route::get('home', 'HomeController@index');       //改爆前台menu
 Route::get('test', 'HomeController@showCatPage');       //改爆前台menu
+
+Route::get('ajax/search-suppliers', 'SearchesController@searchSuppliers');
+Route::get('ajax/suppliers/get-subcategories', 'ContentCategoriesController@ajaxGetSuppliersSubcategories');
