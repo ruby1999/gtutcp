@@ -17,12 +17,15 @@ $(function() {
         var id = $('#top-catalog').val();
         console.log(id);
         var q = $('#q').val();
+        console.log(window.urlPrefix);  //undefined三小
         $.ajax({
             method: 'GET',
-            url: window.urlPrefix + '/ajax/suppliers/get-subcategories',
-            data: {'id': id},
+            url:'/ajax/suppliers/get-subcategories', //undefined三小，阿就擋起來了阿
+            // url: window.urlPrefix + '/ajax/suppliers/get-subcategories',
+            data: {'id': id}, //data傳不進去
             dataType: 'json',
             success:function(res) {
+                console.log('進來了沒');
                 $('#meddle_catalog').empty();
                 console.log(res['data']);
                 if(res['data']) {
@@ -45,15 +48,15 @@ $(function() {
             id = $('#id').val();
         }
 
-        $.ajax({
-            method: 'GET',
-            url: window.urlPrefix + '/ajax/search-suppliers',
-            data: {'id': id, 'q': q},
-            dataType: 'json',
-            success:function(res) {
-                $('#list_partner').html(res['data']);
-            }
-        })
+        // $.ajax({
+        //     method: 'GET',
+        //     url: window.urlPrefix + '/ajax/search-suppliers',
+        //     data: {'id': id, 'q': q},
+        //     dataType: 'json',
+        //     success:function(res) {
+        //         $('#list_partner').html(res['data']);
+        //     }
+        // })
     })
 
     $('#meddle_catalog').change(function() {

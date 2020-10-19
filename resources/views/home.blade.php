@@ -23,14 +23,14 @@
                 {{-- 下拉式長起來 --}}
                 <div class="row">
                     <div class="col-12" id="searchmp">
-                        <form id="search-suppliers" onsubmit="return false">
+                        <form id="search-suppliers">
                             {{-- {{ dd($roles) }} --}}
                             <fieldset>
                                 <div>
                                     <select id="top-catalog" name="top-catalog" class="selectx" placeholder="">
                                         <option value="">全部</option>
-                                        @foreach($top_cat as $top => $con)
-                                            <option value="{{ $con->id }}">{{ $con->name }}</option>
+                                        @foreach($top_cat as $top => $item)
+                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>

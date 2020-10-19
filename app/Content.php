@@ -16,4 +16,9 @@ class Content extends Model
     {
     	return $this->belongsToMany('App\Category');
     }
+
+    public function tags()
+    {
+    	return $this->belongsToMany('App\Tag');
+    }
 }
