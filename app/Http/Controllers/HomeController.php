@@ -52,7 +52,7 @@ class HomeController extends Controller
         $contents = DB::table('content')
             ->join('categories', function($join)
             {
-                $join->on('content.category_id', '=', 'categories.id');
+                $join->on('content.categories_id', '=', 'categories.id');
             })
             ->select('content.*', 'categories.name as sub_cat')
             ->get();

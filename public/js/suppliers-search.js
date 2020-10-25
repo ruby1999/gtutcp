@@ -17,15 +17,16 @@ $(function() {
         var id = $('#top-catalog').val();
         console.log(id);
         var q = $('#q').val();
-        console.log(window.urlPrefix);  //undefined三小
+        // console.log(window.urlPrefix); 
         $.ajax({
             method: 'GET',
-            url:'/ajax/suppliers/get-subcategories', //undefined三小，阿就擋起來了阿
+            url:'/ajax/suppliers/get-subcategories', 
             // url: window.urlPrefix + '/ajax/suppliers/get-subcategories',
             data: {'id': id}, //data傳不進去
             dataType: 'json',
             success:function(res) {
-                console.log('進來了沒');
+                console.log(res['data']);
+                console.log(data);
                 $('#meddle_catalog').empty();
                 console.log(res['data']);
                 if(res['data']) {
