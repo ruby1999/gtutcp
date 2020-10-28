@@ -24,11 +24,11 @@ $(function() {
             // url: window.urlPrefix + '/ajax/suppliers/get-subcategories',
             data: {'id': id}, //data傳不進去
             dataType: 'json',
+            error:function(xhr){alert("發生錯誤: " + xhr.status + " " + xhr.statusText);},
             success:function(res) {
-                console.log(res['data']);
+                console.log(res);
                 console.log(data);
                 $('#meddle_catalog').empty();
-                console.log(res['data']);
                 if(res['data']) {
                     $('#med_catalog').removeClass('unuse');
                     $('#meddle_catalog').removeAttr('disabled');
@@ -67,6 +67,7 @@ $(function() {
             url: window.urlPrefix + '/ajax/search-suppliers',
             data: form.serialize(),
             dataType: 'json',
+            error:function(xhr){alert("發生錯誤: " + xhr.status + " " + xhr.statusText);},
             success:function(res) {
                 $('#list_partner').html(res['data']);
             }

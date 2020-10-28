@@ -44,7 +44,8 @@ class ContentCategoriesController extends Controller
             //         ];
             //     }
             // }
-
+            // 要先把資料塞成array
+            // 再encode成jason，傳回去ajax，成為res
             // $data = isset($data) ? $data : '';
 
             return json_encode(123);
