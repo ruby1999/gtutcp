@@ -28,6 +28,8 @@ class ContentCategoryRepository extends AbstractRepository implements CategoryTr
         $this->model = $model;
     }
 
+
+    // 完全沒有用到ya
     public function findSuppliersCategoryBySlug($id)
     {
         $languageId = config('app.language_id');

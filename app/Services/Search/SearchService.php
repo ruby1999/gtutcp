@@ -15,6 +15,7 @@ namespace App\Services\Search;
 // use App\Services\Feature\Enum\FeatureSnEnum;
 // use FeatureChecker;
 // use Illuminate\Database\Query\JoinClause;
+use App\Http\Controllers\SearchesController;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Category;
 use App\Content;
@@ -34,21 +35,16 @@ class SearchService
     */
     public function searchSuppliers($categoryId, $keyword = null)
     {
-
-        $categoryIds = Category::select('id')
+        
+        // dd($categoryIds);  // 好像可以出現了
+        $categoryIds = DB::table('categories')
                 ->where('id', '=', $categoryId)
                 ->get();
-
-        echo("<script>console.log('".json_encode($categoryIds)."');</script>");
-        // 啥鬼都沒印出來啦
-
-
-        // $categoryIds = ContentCategory::select('id')
-        // ->where('route', 'like', "%{$categoryId}%")
-        // ->get();
+        // dd($categoryIds);
+        
 
         if (count($categoryIds) == 0) {
-            $categoryIds = Content::select('id')
+            $categoryIds = Category::select('id')
             ->where('id', $categoryId)
             ->get();
         }
@@ -60,39 +56,28 @@ class SearchService
         // }
 
         $items = collect();
-
-
-        $contents = DB::table('content')
-        ->join('categories', function($join)
-        {
-            $join->on('content.category_id', '=', 'categories.id');
-        })
-        ->select('content.*', 'categories.name as sub_cat')
-        ->get();
         
-        // $contents = Content::leftJoin('content_details as details', function (JoinClause $join) use ($languageId) {
-        //         $join->on('details.content_id', '=', 'contents.id');
-        //         $join->where('details.language_id', '=', $languageId);
-        //     })
-        //     ->leftJoin('content_categories_contents as categories_contents', function (JoinClause $join) {
-        //         $join->on('categories_contents.content_id', '=', 'contents.id');
-        //     })
-        //     ->where(function ($query) use ($keyword) {
-        //         $query->where('details.title', 'like', "%{$keyword}%")
-        //               ->orWhere('details.introduction', 'like', "%{$keyword}%")
-        //               ->orWhere('details.description', 'like', "%{$keyword}%");
-        //     })
-        //     ->whereIn('categories_contents.content_category_id', $categoryIds)
-        //     ->frontendFilter()
-        //     ->activeIs(ActiveEnum::PUBLISHED, 'details')
-        //     ->orderBy('order', 'ASC')
-        //     ->get([
-        //         'contents.*',
-        //         'details.title',
-        //         'details.parsed_introduction',
-        //         'details.parsed_description',
-        //         'details.image',
-        //     ]);
+        $contents = DB::table('content')
+        ->leftJoin(
+            'category_content',
+            'category_content.content_id',
+            '=',
+            'content.id'
+        )
+            ->leftJoin(
+                'categories',
+                'category_content.category_id',
+                '=',
+                'categories.id'
+            )
+        // ->where(function ($query) use ($keyword) {
+        //     $query->where('content.name', 'like', "%{$keyword}%")
+        //           ->orWhere('content.description', 'like', "%{$keyword}%");
+        // })
+        ->whereIn('categories_content.category_id', $categoryIds)
+        ->get(['content.*']);
+
+        // dd($contents);
 
         return $contents;
     }

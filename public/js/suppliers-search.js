@@ -38,8 +38,8 @@ $(function() {
                     }
                 } else {
                     $('#med_catalog').attr('class', 'unuse');
-                    // $("#meddle_catalog").append($("<option></option>").attr("value", '').text('全部'));
-                    // $('#meddle_catalog').attr('disabled', 'disabled');
+                    $("#meddle_catalog").append($("<option></option>").attr("value", '').text('全部'));
+                    $('#meddle_catalog').attr('disabled', 'disabled');
                 }
             }
         })
@@ -48,22 +48,24 @@ $(function() {
             id = $('#id').val();
         }
 
-        // $.ajax({
-        //     method: 'GET',
-        //     url: window.urlPrefix + '/ajax/search-suppliers',
-        //     data: {'id': id, 'q': q},
-        //     dataType: 'json',
-        //     success:function(res) {
-        //         $('#list_partner').html(res['data']);
-        //     }
-        // })
+        $.ajax({
+            method: 'GET',
+            url: '/ajax/search-suppliers',
+            // url: window.urlPrefix + '/ajax/search-suppliers',
+            data: {'id': id, 'q': q},
+            dataType: 'json',
+            success:function(res) {
+                $('#list_partner').html(res['data']);
+            }
+        })
     })
 
     $('#meddle_catalog').change(function() {
         var form = $('#search-suppliers');
         $.ajax({
             method: 'GET',
-            url: window.urlPrefix + '/ajax/search-suppliers',
+            url: '/ajax/search-suppliers',
+            // url: window.urlPrefix + '/ajax/search-suppliers',
             data: form.serialize(),
             dataType: 'json',
             error:function(xhr){alert("發生錯誤: " + xhr.status + " " + xhr.statusText);},

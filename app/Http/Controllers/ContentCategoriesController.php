@@ -60,7 +60,7 @@ class ContentCategoriesController extends Controller
 
             // return json_encode(123);
         } catch (Exception $exception) {
-            exception_debug($exception);
+            // exception_debug($exception);
 
             return response()->json([
                 'status' => 'Error: ',

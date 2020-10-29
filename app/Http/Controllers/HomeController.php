@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\Search\SearchService;
+use App\Http\Controllers\SearchesController;
 use Collective\Html\FormFacade as Form;
 // use Illuminate\Pagination\LengthAwarePaginator;
 // use App\Services\Optimize\Cache\CacheService;
@@ -50,40 +51,19 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $datas = $this->menu();
-        $contents = DB::table('content')
-            ->join('categories', function ($join) {
-                $join->on('content.category_id', '=', 'categories.id');
-            })
-            ->select('content.*', 'categories.name as sub_cat')
-            ->get();
+        $contents = $this->searchService->searchSuppliers($request);
+        // dd($contents);
+        // dd($contents);
+        // $contents = DB::table('content')
+        //     ->join('categories', function ($join) {
+        //         $join->on('content.category_id', '=', 'categories.id');
+        //     })
+        //     ->select('content.*', 'categories.name as sub_cat')
+        //     ->get();
         // dd($datas);
         // $contents = Content::all();
         $categories = Category::all();
-
         $top_cat = DB::table('categories')->where('parent_id', 0)->select('id', 'name')->get();
-
-        // -----------------
-        $test = DB::table('content')
-                ->leftJoin(
-                    'category_content',
-                    function ($join) {
-                        $join->on('category_content.content_id', '=', 'content.id');
-                    }
-                )
-                    ->leftJoin(
-                        'categories',
-                        function ($join) {
-                            $join->on('category_content.category_id', '=', 'categories.id');
-                        }
-                    )
-                    // ->orderBy('content_categories.route')
-                    // ->orderBy('content_categories.order')
-                    // ->where('content.category_id', 8)
-                    ->where('categories.id', 15)
-                    // ->whereIn('categories.parent_category_id', $id)
-                    // ->distinct('content_categories.id')
-                    ->get(['content.*']);
-        // dd($test);
 
         return view('home', compact('datas', 'contents', 'categories', 'top_cat'));
     }

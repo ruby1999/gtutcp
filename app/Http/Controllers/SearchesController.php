@@ -10,7 +10,6 @@ use Throwable;
 
 class SearchesController extends Controller
 {
-
     private $searchService;
 
     /**
@@ -37,8 +36,9 @@ class SearchesController extends Controller
         // ----------------
         try {
             $top_catalog = $request->get('top-catalog');
+            // var_dump($top_catalog);
             $meddle_catalog = $request->get('meddle_catalog');
-
+            // var_dump($meddle_catalog);
             $keyword = $request->get('q');
 
             if (!$top_catalog) {
@@ -48,10 +48,11 @@ class SearchesController extends Controller
             } elseif ($top_catalog) {
                 $categoryId = $top_catalog;
             }
-
-            /* $content內容要有啥 */
+            // dd($categoryId);
+            // $categoryId 出現了! SearchesController拼錯
+            // $content內容要有啥
             $contents = $this->searchService->searchSuppliers($categoryId, $keyword);
-            // dd($contents);  
+            // dd($contents);
 
             $html = '';
             foreach ($contents as $key => $row) {
@@ -68,21 +69,20 @@ class SearchesController extends Controller
                 $html .= '<tr>';
                 $html .= '<td>'. $row->id  .'</td>';
                 $html .= '<td>'. $row->sub_cat .'</td>';
-                $html .= '<td>'. $row->company .'</td>  ';  
+                $html .= '<td>'. $row->company .'</td>  ';
                 $html .= '<td>'. $row->name .'</td>';
                 $html .= '<td>'. $row->description .'</td>';
                 $html .= '<th>'. $row->system .'</th>';
                 $html .= '<\tr>';
             }
-
+            // return json_encode(123);
             return json_encode(['data' => $html]);
-
         } catch (Exception $exception) {
-            exception_debug($exception);
+            // exception_debug($exception);
 
             abort(404);
         } catch (Throwable $e) {
-            exception_debug($e);
+            // exception_debug($e);
 
             abort(404);
         }
