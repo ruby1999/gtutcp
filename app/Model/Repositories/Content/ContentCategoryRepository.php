@@ -39,9 +39,9 @@ class ContentCategoryRepository extends AbstractRepository implements CategoryTr
         return $this->model->leftJoin(
             'content_category_details as details',
             function (JoinClause $join) use ($languageId) {
-                        $join->on('details.content_category_id', '=', 'content_categories.id');
-                        $join->where('details.language_id', '=', $languageId);
-                    }
+                $join->on('details.content_category_id', '=', 'content_categories.id');
+                $join->where('details.language_id', '=', $languageId);
+            }
         )
                     ->leftJoin(
                         'content_categories_contents as categories_contents',

@@ -22,12 +22,11 @@ $(function() {
             method: 'GET',
             url:'/ajax/suppliers/get-subcategories', 
             // url: window.urlPrefix + '/ajax/suppliers/get-subcategories',
-            data: {'id': id}, //data傳不進去
+            data: {'id': id},
             dataType: 'json',
             error:function(xhr){alert("發生錯誤: " + xhr.status + " " + xhr.statusText);},
             success:function(res) {
                 console.log(res);
-                console.log(data);
                 $('#meddle_catalog').empty();
                 if(res['data']) {
                     $('#med_catalog').removeClass('unuse');

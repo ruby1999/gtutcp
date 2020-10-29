@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Http\Controllers;
 
@@ -11,11 +11,11 @@ use Collective\Html\FormFacade as Form;
 use App\Category;
 use App\Content;
 use DB;
+
 // use Form;
 
 class HomeController extends Controller
 {
-
     private $searchService;
 
     /**
@@ -28,16 +28,17 @@ class HomeController extends Controller
         $this->searchService = $searchService;
     }
 
-    public function menu(){
+    public function menu()
+    {
         $datas = DB::table('categories')->distinct()->where('parent_id', '=', 0)->select('id', 'name', 'slug')->get();
 
         foreach ($datas as $key => $row) {
             $b = DB::table('categories')->distinct()->where('parent_id', '=', $row->id)->select('id', 'name', 'slug')->get();
-            if(json_decode($b) != []) {
+            if (json_decode($b) != []) {
                 $datas[$key]->subCategories = $b;
             }
         }
-
+        // dd($datas);
         return $datas;
     }
 
@@ -50,9 +51,8 @@ class HomeController extends Controller
     {
         $datas = $this->menu();
         $contents = DB::table('content')
-            ->join('categories', function($join)
-            {
-                $join->on('content.categories_id', '=', 'categories.id');
+            ->join('categories', function ($join) {
+                $join->on('content.category_id', '=', 'categories.id');
             })
             ->select('content.*', 'categories.name as sub_cat')
             ->get();
@@ -62,15 +62,36 @@ class HomeController extends Controller
 
         $top_cat = DB::table('categories')->where('parent_id', 0)->select('id', 'name')->get();
 
+        // -----------------
+        $test = DB::table('content')
+                ->leftJoin(
+                    'category_content',
+                    function ($join) {
+                        $join->on('category_content.content_id', '=', 'content.id');
+                    }
+                )
+                    ->leftJoin(
+                        'categories',
+                        function ($join) {
+                            $join->on('category_content.category_id', '=', 'categories.id');
+                        }
+                    )
+                    // ->orderBy('content_categories.route')
+                    // ->orderBy('content_categories.order')
+                    // ->where('content.category_id', 8)
+                    ->where('categories.id', 15)
+                    // ->whereIn('categories.parent_category_id', $id)
+                    // ->distinct('content_categories.id')
+                    ->get(['content.*']);
+        // dd($test);
+
         return view('home', compact('datas', 'contents', 'categories', 'top_cat'));
     }
 
     public function showCatPage(Request $request)
     {
-
         $contents = DB::table('content')
-            ->join('categories', function($join)
-            {
+            ->join('categories', function ($join) {
                 $join->on('content.category_id', '=', 'categories.id');
             })
             ->select('content.*', 'categories.name as sub_cat')
@@ -93,7 +114,7 @@ class HomeController extends Controller
 
 
         // $posts = Post::orderBy('id', 'asc')->paginate(5);
-        return view('home', compact('datas', 'contents', 'categories','system'));
+        return view('home', compact('datas', 'contents', 'categories', 'system'));
     }
 
     /**
