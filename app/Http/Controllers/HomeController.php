@@ -51,15 +51,15 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $datas = $this->menu();
-        $contents = $this->searchService->searchSuppliers($request);
+        // $contents = $this->searchService->searchSuppliers($request);
         // dd($contents);
         // dd($contents);
-        // $contents = DB::table('content')
-        //     ->join('categories', function ($join) {
-        //         $join->on('content.category_id', '=', 'categories.id');
-        //     })
-        //     ->select('content.*', 'categories.name as sub_cat')
-        //     ->get();
+        $contents = DB::table('content')
+            ->join('categories', function ($join) {
+                $join->on('content.category_id', '=', 'categories.id');
+            })
+            ->select('content.*', 'categories.name as sub_cat')
+            ->get();
         // dd($datas);
         // $contents = Content::all();
         $categories = Category::all();

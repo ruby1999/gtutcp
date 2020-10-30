@@ -35,8 +35,7 @@ class SearchService
     */
     public function searchSuppliers($categoryId, $keyword = null)
     {
-        
-        // dd($categoryIds);  // 好像可以出現了
+        // dd($categoryId);  // 好像可以出現了 作夢
         $categoryIds = DB::table('categories')
                 ->where('id', '=', $categoryId)
                 ->get();
@@ -75,7 +74,8 @@ class SearchService
         //           ->orWhere('content.description', 'like', "%{$keyword}%");
         // })
         ->whereIn('categories_content.category_id', $categoryIds)
-        ->get(['content.*']);
+        ->select('content.*')
+        ->get();
 
         // dd($contents);
 

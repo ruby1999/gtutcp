@@ -48,11 +48,12 @@ class SearchesController extends Controller
             } elseif ($top_catalog) {
                 $categoryId = $top_catalog;
             }
+
             // dd($categoryId);
             // $categoryId 出現了! SearchesController拼錯
             // $content內容要有啥
             $contents = $this->searchService->searchSuppliers($categoryId, $keyword);
-            // dd($contents);
+            var_dump($contents);
 
             $html = '';
             foreach ($contents as $key => $row) {
@@ -79,13 +80,19 @@ class SearchesController extends Controller
             return json_encode(['data' => $html]);
         } catch (Exception $exception) {
             // exception_debug($exception);
-
-            abort(404);
-        } catch (Throwable $e) {
-            // exception_debug($e);
-
+            return response()->json([
+                'status' => 'Error: ',
+                'message' => '錯誤1'
+            ]);
             abort(404);
         }
-        // ----------------
+        // catch (Throwable $e) {
+        //     exception_debug($e);
+        //     // return response()->json([
+        //     //     'status' => 'Error: ',
+        //     //     'message' => '錯誤2'
+        //     // ]);
+        //     abort(404);
+        // }
     }
 }
