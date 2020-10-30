@@ -35,25 +35,34 @@ class SearchService
     */
     public function searchSuppliers($categoryId, $keyword = null)
     {
-        // dd($categoryId);  // 好像可以出現了 作夢
-        $categoryIds = DB::table('categories')
-                ->where('id', '=', $categoryId)
+        $languageId = config('app.language_id');
+
+        $categoryIds = ContentCategory::select('id')
+                ->where('route', 'like', "%{$categoryId}%")
                 ->get();
-        // dd($categoryIds);
-        
 
         if (count($categoryIds) == 0) {
+            $categoryIds = ContentCategory::select('id')
+            ->where('id', $categoryId)
+            ->get();
+        }
+
+        // -----------
+        
+        if (count($categoryId) == 0) {
             $categoryIds = Category::select('id')
             ->where('id', $categoryId)
             ->get();
         }
 
-        // if (count($categoryIds) == 0) {
-        //     $categoryIds = ContentCategory::select('id')
-        //     ->where('id', $categoryId)
-        //     ->get();
-        // }
+        var_dump($categoryIds);
 
+        if (count($categoryIds) == 0) {
+            $categoryIds = ContentCategory::select('id')
+            ->where('id', $categoryId)
+            ->get();
+        }
+        
         $items = collect();
         
         $contents = DB::table('content')

@@ -35,25 +35,27 @@ class SearchesController extends Controller
     {
         // ----------------
         try {
-            $top_catalog = $request->get('top-catalog');
-            // var_dump($top_catalog);
-            $meddle_catalog = $request->get('meddle_catalog');
+            // $top_catalog = $request->get('top-catalog');
+            
+            $categoryId = $request->get('id');
+            // dd($categoryId);
+            // $meddle_catalog = $request->get('meddle_catalog');
             // var_dump($meddle_catalog);
             $keyword = $request->get('q');
 
-            if (!$top_catalog) {
-                $categoryId = $request->get('id');
-            } elseif ($meddle_catalog && $top_catalog) {
-                $categoryId = $meddle_catalog;
-            } elseif ($top_catalog) {
-                $categoryId = $top_catalog;
-            }
+            // if (!$top_catalog) {
+            //     $categoryId = $request->get('id');
+            // } elseif ($meddle_catalog && $top_catalog) {
+            //     $categoryId = $meddle_catalog;
+            // } elseif ($top_catalog) {
+            //     $categoryId = $top_catalog;
+            // }
 
             // dd($categoryId);
             // $categoryId 出現了! SearchesController拼錯
             // $content內容要有啥
             $contents = $this->searchService->searchSuppliers($categoryId, $keyword);
-            var_dump($contents);
+            dd($contents);
 
             $html = '';
             foreach ($contents as $key => $row) {
